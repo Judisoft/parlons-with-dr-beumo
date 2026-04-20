@@ -1,0 +1,73 @@
+services:
+
+  mysql:
+    image: mysql:8.2
+    container_name: parlons_mysql_dev
+    restart: unless-stopped
+    environment:
+      MYSQL_ROOT_PASSWORD: devroot
+      MYSQL_DATABASE:      french_tutor
+      MYSQL_USER:          appuser
+      MYSQL_PASSWORD:      apppass
+    ports:
+      - "3306:3306"
+    volumes:
+      - mysql_dev_data:/var/lib/mysql
+      - ./backend/src/db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
+      - ./backend/src/db/seed.sql:/docker-entrypoint-initdb.d/02_seed.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-pdevroot"]
+      interval: 10s
+      timeout: 5s
+      retries: 10
+    networks:
+      - dev
+
+  backend:
+    image: node:20-alpine
+    container_name: parlons_backend_dev
+    working_dir: /app
+    volumes:
+      - ./backend:/app
+      - /app/node_modules
+    ports:
+      - "4000:4000"
+    command: sh -c "npm install && npm run dev"
+    environment:
+      NODE_ENV:    development
+      PORT:        4000
+      DB_HOST:     mysql
+      DB_PORT:     3306
+      DB_NAME:     french_tutor
+      DB_USER:     appuser
+      DB_PASSWORD: apppass
+    depends_on:
+      mysql:
+        condition: service_healthy
+    networks:
+      - dev
+
+  web:
+    image: node:20-alpine
+    container_name: parlons_web_dev
+    working_dir: /app
+    volumes:
+      - .:/app
+      - /app/node_modules
+    ports:
+      - "5173:5173"
+    command: sh -c "npm install && npm run dev -- --host"
+    environment:
+      NODE_ENV:         development
+      API_PROXY_TARGET: http://backend:4000
+    depends_on:
+      - backend
+    networks:
+      - dev
+
+volumes:
+  mysql_dev_data:
+
+networks:
+  dev:
+    driver: bridge
