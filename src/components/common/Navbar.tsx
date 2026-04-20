@@ -14,7 +14,7 @@ export default function Navbar() {
       <div className="max-w-6xl mx-auto px-4 sm:px-6 lg:px-8 h-16 flex items-center justify-between">
         {/* Logo */}
         <Link to="/" className="flex items-center">
-          <img src="/parlons_logo.svg" alt="Parlons" className="h-16 w-auto" />
+          <img src="/parlons_logo.svg" alt="Parlons" className="h-16 w-auto" style={{ mixBlendMode: "multiply" }} />
         </Link>
 
         {/* Desktop nav */}

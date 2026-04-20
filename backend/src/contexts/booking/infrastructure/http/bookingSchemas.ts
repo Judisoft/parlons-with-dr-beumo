@@ -11,3 +11,7 @@ export const createBookingSchema = z.object({
     .min(1, 'Select at least one day'),
   preferredTime: z.enum(['morning', 'afternoon', 'evening']),
 })
+
+export const updateStatusSchema = z.object({
+  status: z.enum(['pending', 'confirmed', 'cancelled']),
+})

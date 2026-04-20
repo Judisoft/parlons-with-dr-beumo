@@ -4,6 +4,8 @@ import { Level } from './value-objects/Level'
 import { SessionGoal } from './value-objects/SessionGoal'
 import { PreferredTime } from './value-objects/PreferredTime'
 
+export type BookingStatus = 'pending' | 'confirmed' | 'cancelled'
+
 interface BookingProps {
   id: string
   firstName: string
@@ -13,6 +15,7 @@ interface BookingProps {
   sessionGoal: SessionGoal
   preferredDays: string[]
   preferredTime: PreferredTime
+  status: BookingStatus
   createdAt: Date
 }
 
@@ -24,6 +27,19 @@ export interface CreateBookingInput {
   sessionGoal: string
   preferredDays: string[]
   preferredTime: string
+}
+
+export interface BookingPlainObject {
+  id: string
+  firstName: string
+  lastName: string
+  email: string
+  frenchLevel: string
+  sessionGoal: string
+  preferredDays: string[]
+  preferredTime: string
+  status: BookingStatus
+  createdAt: string
 }
 
 export class Booking {
@@ -39,7 +55,34 @@ export class Booking {
       sessionGoal:   SessionGoal.create(input.sessionGoal),
       preferredDays: input.preferredDays,
       preferredTime: PreferredTime.create(input.preferredTime),
+      status:        'pending',
       createdAt:     new Date(),
+    })
+  }
+
+  static reconstitute(raw: {
+    id: string
+    firstName: string
+    lastName: string
+    email: string
+    frenchLevel: string
+    sessionGoal: string
+    preferredDays: string[]
+    preferredTime: string
+    status: BookingStatus
+    createdAt: Date
+  }): Booking {
+    return new Booking({
+      id:            raw.id,
+      firstName:     raw.firstName,
+      lastName:      raw.lastName,
+      email:         Email.create(raw.email),
+      frenchLevel:   Level.create(raw.frenchLevel),
+      sessionGoal:   SessionGoal.create(raw.sessionGoal),
+      preferredDays: raw.preferredDays,
+      preferredTime: PreferredTime.create(raw.preferredTime),
+      status:        raw.status,
+      createdAt:     raw.createdAt,
     })
   }
 
@@ -51,5 +94,25 @@ export class Booking {
   get sessionGoal()   { return this.props.sessionGoal.toString() }
   get preferredDays() { return this.props.preferredDays }
   get preferredTime() { return this.props.preferredTime.toString() }
+  get status()        { return this.props.status }
   get createdAt()     { return this.props.createdAt }
+
+  withStatus(status: BookingStatus): Booking {
+    return new Booking({ ...this.props, status })
+  }
+
+  toPlainObject(): BookingPlainObject {
+    return {
+      id:            this.props.id,
+      firstName:     this.props.firstName,
+      lastName:      this.props.lastName,
+      email:         this.email,
+      frenchLevel:   this.frenchLevel,
+      sessionGoal:   this.sessionGoal,
+      preferredDays: this.props.preferredDays,
+      preferredTime: this.preferredTime,
+      status:        this.props.status,
+      createdAt:     this.props.createdAt.toISOString(),
+    }
+  }
 }

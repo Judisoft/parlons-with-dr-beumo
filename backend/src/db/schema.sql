@@ -10,9 +10,12 @@ CREATE TABLE IF NOT EXISTS bookings (
   session_goal   ENUM('tef-prep','tcf-prep','delf-dalf-prep','general','conversation') NOT NULL,
   preferred_days JSON         NOT NULL,
   preferred_time ENUM('morning','afternoon','evening') NOT NULL,
+  status         ENUM('pending','confirmed','cancelled') NOT NULL DEFAULT 'pending',
   created_at     DATETIME     NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY (id),
-  INDEX idx_email (email)
+  INDEX idx_email (email),
+  INDEX idx_status (status),
+  INDEX idx_created_at (created_at)
 ) ENGINE=InnoDB DEFAULT CHARSET=utf8mb4 COLLATE=utf8mb4_unicode_ci;
 
 CREATE TABLE IF NOT EXISTS courses (
