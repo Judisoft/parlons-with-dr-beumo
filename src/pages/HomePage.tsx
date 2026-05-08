@@ -1,6 +1,41 @@
+import { useState } from 'react'
 import { Link } from 'react-router-dom'
 import { Users, Star, CalendarCheck, MessageCircle } from 'lucide-react'
 import FadeIn from '@/components/common/FadeIn'
+
+function VideoPlayer({ videoId }: { videoId: string }) {
+  const [playing, setPlaying] = useState(false)
+
+  if (playing) {
+    return (
+      <iframe
+        className="absolute inset-0 w-full h-full"
+        src={`https://www.youtube.com/embed/${videoId}?rel=0&modestbranding=1&autoplay=1`}
+        title="Introduction by Dr. Beumo Lesly"
+        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+        allowFullScreen
+      />
+    )
+  }
+
+  return (
+    <button
+      onClick={() => setPlaying(true)}
+      className="absolute inset-0 w-full h-full group"
+      aria-label="Play video"
+    >
+      <img src="/video-thumbnail.jpg" alt="Dr. Beumo Lesly" className="w-full h-full object-cover" />
+      <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors" />
+      <div className="absolute inset-0 flex items-center justify-center">
+        <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center shadow-xl group-hover:scale-110 transition-transform">
+          <svg className="w-16 h-16 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M8 5v14l11-7z" />
+          </svg>
+        </div>
+      </div>
+    </button>
+  )
+}
 
 const REVIEWS = [
   {
@@ -45,8 +80,7 @@ const REVIEWS = [
   },
 ]
 
-// Replace this with Dr. Beumo's actual YouTube video ID
-const INTRO_VIDEO_ID = 'YOUR_YOUTUBE_VIDEO_ID'
+const INTRO_VIDEO_ID = 'OD72x4j-lRc'
 
 const FEATURES = [
   {
@@ -127,24 +161,7 @@ export default function HomePage() {
               className="relative w-full rounded-2xl overflow-hidden shadow-lg bg-gray-900"
               style={{ paddingBottom: '56.25%' }}
             >
-              {INTRO_VIDEO_ID === 'YOUR_YOUTUBE_VIDEO_ID' ? (
-                <div className="absolute inset-0 flex flex-col items-center justify-center gap-4 bg-gradient-to-br from-primary/20 to-primary/5">
-                  <div className="w-20 h-20 rounded-full bg-red-500 flex items-center justify-center shadow-lg">
-                    <svg className="w-12 h-12 text-white ml-1" fill="currentColor" viewBox="0 0 24 24">
-                      <path d="M8 5v14l11-7z" />
-                    </svg>
-                  </div>
-                  <p className="text-white/80 text-sm font-medium">Video coming soon</p>
-                </div>
-              ) : (
-                <iframe
-                  className="absolute inset-0 w-full h-full"
-                  src={`https://www.youtube.com/embed/${INTRO_VIDEO_ID}?rel=0&modestbranding=1`}
-                  title="Introduction by Dr. Beumo Lesly"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
-                  allowFullScreen
-                />
-              )}
+              <VideoPlayer videoId={INTRO_VIDEO_ID} />
             </div>
           </FadeIn>
         </div>

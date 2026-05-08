@@ -5,6 +5,7 @@ import RegisterPage from '@/pages/RegisterPage'
 import AdminBookingsPage from '@/pages/admin/AdminBookingsPage'
 import AdminBookingDetailPage from '@/pages/admin/AdminBookingDetailPage'
 import AdminPinGuard from '@/components/admin/AdminPinGuard'
+import ContactPage from '@/pages/ContactPage'
 
 function PublicLayout() {
   return (
@@ -25,6 +26,7 @@ export default function App() {
         <Route element={<PublicLayout />}>
           <Route path="/" element={<HomePage />} />
           <Route path="/register" element={<RegisterPage />} />
+          <Route path="/contact" element={<ContactPage />} />
         </Route>
         <Route element={<AdminPinGuard />}>
           <Route path="/admin/booking" element={<AdminBookingsPage />} />

@@ -4,6 +4,7 @@ import { Menu, X } from 'lucide-react'
 
 const NAV_LINKS = [
   { to: '/', label: 'Home' },
+  { to: '/contact', label: 'Contact' },
 ]
 
 export default function Navbar() {

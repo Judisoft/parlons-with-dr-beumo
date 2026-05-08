@@ -10,6 +10,7 @@ export default defineConfig({
     },
   },
   server: {
+    allowedHosts: ['catcall-ignition-effects.ngrok-free.dev'],
     proxy: {
       '/api': {
         target: process.env.API_PROXY_TARGET ?? 'http://localhost:4000',
