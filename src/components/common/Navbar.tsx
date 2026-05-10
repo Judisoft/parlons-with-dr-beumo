@@ -35,7 +35,7 @@ export default function Navbar() {
             </NavLink>
           ))}
           <Link to="/register" className="btn-primary text-sm">
-            Book a Lesson
+            Book a Session
           </Link>
         </nav>
 
@@ -66,7 +66,7 @@ export default function Navbar() {
             </NavLink>
           ))}
           <Link to="/register" onClick={() => setOpen(false)} className="btn-primary text-sm text-center">
-            Book a Lesson
+            Book a Session
           </Link>
         </div>
       )}

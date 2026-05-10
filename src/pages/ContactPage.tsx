@@ -19,9 +19,9 @@ export default function ContactPage() {
       <div className="max-w-2xl mx-auto px-4 sm:px-6 py-16">
 
         <div className="text-center mb-12">
-          <h1 className="text-3xl font-bold text-gray-900 mb-3">Contact Us</h1>
+          <h1 className="text-3xl font-bold text-gray-900 mb-3">Contact Dr Beumo</h1>
           <p className="text-gray-500 text-base">
-            Have questions? We'd love to hear from you. Reach out and we'll get back to you shortly.
+            Have questions? I'd love to hear from you.
           </p>
         </div>
 
@@ -73,7 +73,7 @@ export default function ContactPage() {
 
         <div className="mt-10 text-center">
           <Link to="/register" className="btn-primary">
-            Book a Lesson
+            Book a Session
           </Link>
         </div>
 

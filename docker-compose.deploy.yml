@@ -9,8 +9,6 @@ services:
       MYSQL_DATABASE:      ${MYSQL_DATABASE}
       MYSQL_USER:          ${MYSQL_USER}
       MYSQL_PASSWORD:      ${MYSQL_PASSWORD}
-    ports:
-      - "3306:3306"
     volumes:
       - mysql_data:/var/lib/mysql
       - ./backend/src/db/schema.sql:/docker-entrypoint-initdb.d/01_schema.sql:ro
@@ -24,9 +22,7 @@ services:
       - internal
 
   backend:
-    build:
-      context: ./backend
-      dockerfile: Dockerfile
+    image: kumjude/french-tutor-backend:latest
     container_name: parlons_backend
     restart: unless-stopped
     environment:
@@ -44,22 +40,34 @@ services:
       - internal
 
   web:
-    build:
-      context: .
-      dockerfile: Dockerfile
-      args:
-        VITE_ADMIN_PIN: ${VITE_ADMIN_PIN}
+    image: kumjude/french-tutor-frontend:latest
     container_name: parlons_web
     restart: unless-stopped
-    ports:
-      - "3000:80"
     depends_on:
       - backend
     networks:
       - internal
 
+  caddy:
+    image: caddy:2-alpine
+    container_name: parlons_caddy
+    restart: unless-stopped
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - caddy_data:/data
+      - caddy_config:/config
+    depends_on:
+      - web
+    networks:
+      - internal
+
 volumes:
   mysql_data:
+  caddy_data:
+  caddy_config:
 
 networks:
   internal:

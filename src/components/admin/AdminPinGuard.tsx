@@ -2,7 +2,7 @@ import { useState } from 'react'
 import { Outlet } from 'react-router-dom'
 import { Lock, Loader2 } from 'lucide-react'
 
-const PIN = '8080'
+const PIN = import.meta.env.VITE_ADMIN_PIN 
 const STORAGE_KEY = 'admin_authed'
 
 export default function AdminPinGuard() {

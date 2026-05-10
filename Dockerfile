@@ -7,6 +7,8 @@ COPY package*.json ./
 RUN npm ci
 
 COPY . .
+ARG VITE_ADMIN_PIN=8080
+ENV VITE_ADMIN_PIN=$VITE_ADMIN_PIN
 RUN npm run build
 
 # ── Stage 2: serve ──────────────────────────────────────────────────────────

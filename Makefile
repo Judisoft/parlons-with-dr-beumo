@@ -24,28 +24,3 @@ backend-shell:
 db-shell:
 	docker compose -f docker-compose.dev.yml exec mysql mysql -u appuser -papppass french_tutor
 
-# ── Production ───────────────────────────────────────────────────────────────
-
-up: rebuild
-	docker compose up -d
-
-down:
-	docker compose down
-
-build:
-	docker compose build
-
-rebuild:
-	docker compose build --no-cache
-
-logs:
-	docker compose logs -f
-
-shell:
-	docker compose exec web sh
-
-ps:
-	docker compose ps
-
-clean:
-	docker compose down --rmi all --volumes --remove-orphans

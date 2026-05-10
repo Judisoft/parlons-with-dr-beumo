@@ -1,0 +1,3 @@
+thefrenchdoctor.ca {
+    reverse_proxy web:80
+}
